@@ -1,0 +1,4 @@
+__global test()
+{
+        return;
+}
