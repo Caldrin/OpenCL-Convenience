@@ -59,21 +59,16 @@ sub prepare {
         my $queue = $ctx->queue ($device);
         my ($caller) = caller();
         my $cl_file = "$function.cl";
-
-        if ($options->{cl_file}) {
-                $cl_file = module_file(  __PACKAGE__,  'multiply.cl');
-        } else {
-                $cl_file = module_file(  __PACKAGE__,  'multiply.cl');
-        }
+        $cl_file = module_file(  $caller,  $cl_file);
 
         my $src = File::Slurp::read_file($cl_file);
         my $prog = $ctx->program_with_source ($src);
 
         # build croaks on compile errors, so catch it and print the compile errors
-        eval { $prog->build (undef, "");1 }
-          or die $prog->build_log($device);
-        my $kernel = $prog->kernel ("color");
-
+        eval { $prog->build ( [$device], "");1 }
+           or die $prog->build_log($device);
+        my $kernel = $prog->kernel ($function);
+        return $kernel;
 }
 
 1; # End package OpenCL::Convenient
