@@ -4,13 +4,13 @@ use strict;
 use warnings;
 use 5.010;
 
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 use lib 't/lib/';
 
-BEGIN { use_ok('OpenCL::Convenient') }
+BEGIN { use_ok('OpenCL::Convenient::Testing') }
 
 
-my $retval = OpenCL::Convenient::prepare('test');
+my $retval = OpenCL::Convenient::Testing::prepare('testing');
 
-is($retval, undef, 'OpenCL preparation finished');
+is(ref $retval, 'OpenCL::Kernel', 'OpenCL preparation finished');

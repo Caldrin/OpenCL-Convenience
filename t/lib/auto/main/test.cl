@@ -1,4 +1,0 @@
-__global test()
-{
-        return;
-}
